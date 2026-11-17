@@ -1,0 +1,12 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.blaze-apps/monody",
+  "title": "monody",
+  "description": "MCP server built into the monody DAW: read the open session and edit it in undoable steps.",
+  "websiteUrl": "https://monody.ai/mcp",
+  "repository": {
+    "url": "https://github.com/blaze-apps/monody-mcp",
+    "source": "github"
+  },
+  "version": "0.9.6"
+}
