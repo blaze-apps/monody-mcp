@@ -12,7 +12,7 @@ This repository is documentation only. The server ships inside the monody deskto
 
 ## What you need
 
-- **monody for Mac.** These steps were checked on the public Mac release (0.9.6) with Claude Code on the same computer. There is also an unsigned Windows test build; the MCP connection on Windows has not been verified.
+- **monody for Mac**, 0.9.7 or later. The setup steps were reviewed against the Mac app's source, and Claude Code is the client we test with. There is also an unsigned Windows test build; the MCP connection on Windows has not been verified.
 - **A monody plan with MCP access:** Lifetime (one-time), Pro or Studio. Any client can connect and list the tools; tool calls need one of these plans.
 - **An MCP client with its own model access.** Claude Code is the client we test with. Calls made over MCP use your client's model and do not spend monody's AI credits.
 
@@ -47,7 +47,8 @@ Keep monody open while you work. Keep the command private: it contains your key.
 
 | Tool | What it does |
 |---|---|
-| `get_project` | Reads the whole session: tempo, tracks, clips, notes, device chains, automation, routing, transport, and the schema of every device |
+| `get_project` | Reads the session: tempo, tracks, clips, notes, device chains, automation, routing and transport. A large project comes back as an overview first |
+| `get_reference` | Reads monody's reference by topic: the commands, the device schemas, the preset sounds and the guides |
 | `get_selection` | Reads what you have selected in the app |
 | `run_commands` | Applies a batch of monody commands as one labeled, undoable transaction; all or nothing |
 | `action_history` | Groups several calls into one action, and lists, undoes or redoes those actions |
@@ -65,7 +66,7 @@ Keep monody open while you work. Keep the command private: it contains your key.
 
 The server lists more tools than this table. Your client's tool list shows the full set for your version of the app.
 
-The command vocabulary ships with the server as MCP instructions, and `get_project` returns the schema of every device, so the model knows the commands and parameters before it changes anything.
+The server sends a short core of rules when a client connects. The full command reference, the device schemas and the sound list are read on demand with `get_reference`, so long instructions are not cut off by the client.
 
 ## How edits behave
 
@@ -96,12 +97,12 @@ More requests once that works:
 
 ## Limits
 
-- Verified on Mac with Claude Code on the same computer. Windows and other clients are not verified.
+- Reviewed and used on Mac with Claude Code on the same computer. Windows and other clients are not verified.
 - Loopback only. A web client would need a tunnel with compatible authentication, which we have not tested.
 - Tool calls need a Lifetime, Pro or Studio plan.
 - `master_to_target` may miss its target. Read the measured LUFS and true peak, and listen before you keep the change.
 - `separate_stems` needs a one-time model download that you start in the app, and separation is an estimate: sounds can spill between parts.
-- A hosted plugin exposes its first 48 parameters.
+- A plugin's parameters are read on demand. One device can have at most 48 automated or macro-driven parameters.
 
 ## Other DAWs
 
